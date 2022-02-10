@@ -1,3 +1,4 @@
+using Avro.Generic;
 using AvroFunctions;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -6,12 +7,12 @@ namespace AvroFunctions_Tests
 {
     public class TestDataRecord
     {
-        private NoCode<DataRecord> recordFuncs;
+        private WithCode<DataRecord> recordFuncs;
 
         [SetUp]
         public void Setup()
         {
-            recordFuncs = new NoCode<DataRecord>();
+            recordFuncs = new WithCode<DataRecord>();
         }
 
         public struct TestParams
@@ -71,6 +72,18 @@ namespace AvroFunctions_Tests
             object[] vals = Params.RawVals;
             string str = NoCode.SerializeDataRecord((int)vals[0], (int)vals[1], (string)vals[4], (int)vals[2], (string)vals[3]);
             Assert.AreEqual(Params.Serialized, str);
+        }
+
+        [Test]
+        public void DeserializeWithoutCode([ValueSource(nameof(GetParams))] TestParams Params)
+        {
+            GenericRecord record = NoCode.DeserializeDataRecord(Params.Serialized);
+
+            Assert.AreEqual(Params.Record.one, record["one"]);
+            Assert.AreEqual(Params.Record.two, record["two"]);
+            Assert.AreEqual(Params.Record.three, record["three"]);
+            Assert.AreEqual(Params.Record.id.id_num, (record["id"] as GenericRecord)["id_num"]);
+            Assert.AreEqual(Params.Record.id.id_str, (record["id"] as GenericRecord)["id_str"]);
         }
     }
 }

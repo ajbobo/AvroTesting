@@ -6,7 +6,7 @@ using System.IO;
 
 namespace AvroFunctions
 {
-    public class NoCode<T>
+    public class WithCode<T>
     {
         private static readonly IAvroSerializer<T> serializer = AvroSerializer.Create<T>();
 
@@ -65,6 +65,17 @@ namespace AvroFunctions
                 res = Convert.ToBase64String(stream.ToArray());
             }
 
+            return res;
+        }
+
+        public static GenericRecord DeserializeDataRecord(string serialized)
+        {
+            GenericRecord res;
+            using (var stream = new MemoryStream(Convert.FromBase64String(serialized)))
+            {
+                DatumReader<GenericRecord> reader = new GenericDatumReader<GenericRecord>(schema, schema);
+                res = reader.Read(null, new Avro.IO.BinaryDecoder(stream));
+            }
             return res;
         }
     }

@@ -6,12 +6,12 @@ namespace AvroFunctions_Tests
 {
     public class TestRecordId
     {
-        private NoCode<RecordId> recordFuncs;
+        private WithCode<RecordId> recordFuncs;
 
         [SetUp]
         public void Setup()
         {
-            recordFuncs = new NoCode<RecordId>();
+            recordFuncs = new WithCode<RecordId>();
         }
 
         public struct TestParams

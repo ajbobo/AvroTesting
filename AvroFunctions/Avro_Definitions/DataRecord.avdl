@@ -13,7 +13,7 @@ protocol AvroFunctions {
     RecordId id;
     string three;
     // Second version - Added Four -- The old constructor is now broken. I had to manually add a default parameter to it.
-    //union { null, string, int } Four;
+    //union { null, string } Four;
   }
 
 }
