@@ -12,7 +12,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Apache.Avro" Version="1.9.2" />
     <PackageReference Include="Microsoft.Hadoop.Avro2" Version="1.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Avro_Generated\DataRecord.avsc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

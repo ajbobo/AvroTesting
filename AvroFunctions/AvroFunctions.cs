@@ -1,10 +1,12 @@
-﻿using Microsoft.Hadoop.Avro;
+﻿using Avro;
+using Avro.Generic;
+using Microsoft.Hadoop.Avro;
 using System;
 using System.IO;
 
 namespace AvroFunctions
 {
-    public class AvroFunctions<T>
+    public class NoCode<T>
     {
         private static readonly IAvroSerializer<T> serializer = AvroSerializer.Create<T>();
 
@@ -35,6 +37,34 @@ namespace AvroFunctions
             {
                 res = serializer.Deserialize(stream);
             }
+            return res;
+        }
+    }
+
+    public class NoCode
+    {
+        private static string dataRecordJson = File.ReadAllText("Avro_Generated\\DataRecord.avsc");
+        private static RecordSchema schema = (RecordSchema)Schema.Parse(dataRecordJson);
+
+        public static string SerializeDataRecord(int v1, int v2, string v3, int id_num, string id_str)
+        {
+            // Create the DataRecord without using the generated C# code
+            GenericRecord dataRecord = new GenericRecord(schema);
+            dataRecord.Add("one", v1);
+            dataRecord.Add("two", v2);
+            dataRecord.Add("id", new GenericRecord((RecordSchema)schema["id"].Schema));
+            (dataRecord["id"] as GenericRecord).Add("id_num", id_num);
+            (dataRecord["id"] as GenericRecord).Add("id_str", id_str);
+            dataRecord.Add("three", v3);
+
+            string res;
+            using (var stream = new MemoryStream())
+            {
+                DatumWriter<GenericRecord> writer = new GenericDatumWriter<GenericRecord>(schema);
+                writer.Write(dataRecord, new Avro.IO.BinaryEncoder(stream));
+                res = Convert.ToBase64String(stream.ToArray());
+            }
+
             return res;
         }
     }
