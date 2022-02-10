@@ -15,17 +15,8 @@ namespace AvroFunctions
             string res;
             using (var stream = new MemoryStream())
             {
-                try
-                {
-                    serializer.Serialize(stream, obj);
-                    res = Convert.ToBase64String(stream.ToArray());
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Exception: {0}", ex.Message);
-                    Console.WriteLine(ex.StackTrace);
-                    res = "";
-                }
+                serializer.Serialize(stream, obj);
+                res = Convert.ToBase64String(stream.ToArray());
             }
             return res;
         }
