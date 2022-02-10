@@ -1,0 +1,28 @@
+{
+  "type" : "record",
+  "name" : "DataRecord",
+  "namespace" : "AvroFunctions",
+  "fields" : [ {
+    "name" : "one",
+    "type" : "int"
+  }, {
+    "name" : "two",
+    "type" : "int"
+  }, {
+    "name" : "id",
+    "type" : {
+      "type" : "record",
+      "name" : "RecordId",
+      "fields" : [ {
+        "name" : "id_num",
+        "type" : "int"
+      }, {
+        "name" : "id_str",
+        "type" : "string"
+      } ]
+    }
+  }, {
+    "name" : "three",
+    "type" : "string"
+  } ]
+}

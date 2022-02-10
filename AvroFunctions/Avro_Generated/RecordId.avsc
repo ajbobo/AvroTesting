@@ -1,0 +1,12 @@
+{
+  "type" : "record",
+  "name" : "RecordId",
+  "namespace" : "AvroFunctions",
+  "fields" : [ {
+    "name" : "id_num",
+    "type" : "int"
+  }, {
+    "name" : "id_str",
+    "type" : "string"
+  } ]
+}

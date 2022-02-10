@@ -1,0 +1,19 @@
+@namespace("AvroFunctions")
+protocol AvroFunctions {
+
+  record RecordId {
+    int id_num;
+    string id_str;
+  }
+
+  record DataRecord {
+    // First version - Had one, two, id, three
+    int one;
+    int two;
+    RecordId id;
+    string three;
+    // Second version - Added Four -- The old constructor is now broken. I had to manually add a default parameter to it.
+    //union { null, string, int } Four;
+  }
+
+}
